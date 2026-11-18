@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">
 <meta name="theme-color" content="#29231F">
 <title>AFTERGLOW — Some moments deserve to stay forever</title>
 <meta name="description" content="AFTERGLOW is a personal photo experience designed to turn ordinary moments into timeless memories.">
@@ -98,7 +98,7 @@ p{margin:0;}
 .btn[disabled]{opacity:.45;pointer-events:none;}
 
 /* ============================================================
-   INTRO
+   INTRO (UPDATED: Cinematic Text Move Up)
    ============================================================ */
 #intro{
   position:fixed;inset:0;z-index:9999;background:var(--espresso);
@@ -109,15 +109,29 @@ p{margin:0;}
 #intro.hide{opacity:0;visibility:hidden;pointer-events:none;}
 #intro .grain{position:absolute;inset:0;opacity:.08;pointer-events:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+.intro-content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), margin-bottom 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.intro-content.move-up{
+  transform: translateY(-40px);
+  margin-bottom: 30px;
+}
+
 .intro-kicker{
   font-size:.68rem;letter-spacing:.42em;text-transform:uppercase;
   color:var(--beige);opacity:0;transform:translateY(10px);
-  animation:introKicker .9s var(--t-slow) .3s forwards;
+  animation:introKicker .9s var(--t-slow) .3s forwards;text-align:center;padding:0 20px;
+  margin-bottom: 20px;
 }
 @keyframes introKicker{to{opacity:.85;transform:translateY(0);}}
+
 .intro-logo{
   font-family:var(--serif);font-size:clamp(2.6rem,10vw,5.5rem);
-  letter-spacing:.14em;margin:22px 0 0;display:flex;gap:.02em;
+  letter-spacing:.14em;display:flex;gap:.02em;
   filter:blur(14px);opacity:0;
   animation:introFocus 1.4s cubic-bezier(.22,.61,.36,1) .7s forwards;
 }
@@ -125,17 +139,23 @@ p{margin:0;}
 .intro-logo span{display:inline-block;opacity:0;transform:translateY(.4em);
   animation:letterIn .7s cubic-bezier(.22,.61,.36,1) forwards;}
 @keyframes letterIn{to{opacity:1;transform:translateY(0);}}
+
 .intro-line{
   width:0;height:1px;background:linear-gradient(90deg,transparent,var(--champagne),transparent);
-  margin:26px 0;transition:width 1.2s cubic-bezier(.22,.61,.36,1);
+  margin:0;transition:width 1.2s cubic-bezier(.22,.61,.36,1), margin 1.2s ease;
+  opacity: 0;
 }
-.intro-line.show{width:min(320px,60vw);}
+.intro-line.show{width:min(320px,60vw);margin: 10px 0 20px 0; opacity: 1;}
+
 .intro-slogan{
   font-family:var(--serif);font-style:italic;font-size:clamp(1rem,3.4vw,1.4rem);
   color:var(--champagne);opacity:0;transform:translateY(14px);
   transition:opacity .9s ease,transform .9s ease;text-align:center;padding:0 24px;
+  position: absolute;
+  bottom: 20%; 
 }
 .intro-slogan.show{opacity:.9;transform:translateY(0);}
+
 #skipIntro{
   position:absolute;bottom:32px;right:32px;font-size:.7rem;letter-spacing:.24em;
   text-transform:uppercase;color:var(--beige);opacity:.55;padding:10px 16px;
@@ -143,7 +163,10 @@ p{margin:0;}
   transition:opacity var(--t-fast),border-color var(--t-fast);
 }
 #skipIntro:hover{opacity:1;border-color:var(--beige);}
-@media(max-width:640px){#skipIntro{right:16px;bottom:20px;}}
+@media(max-width:640px){
+  #skipIntro{right:50%;transform:translateX(50%);bottom:24px;}
+  .intro-slogan{bottom: 18%;}
+}
 
 /* ============================================================
    NAV
@@ -192,7 +215,6 @@ header.nav.scrolled{
   .nav-links{display:none;}
   .menu-toggle{display:grid;}
 }
-/* mobile drawer */
 #mobileMenu{
   position:fixed;inset:0;z-index:950;background:var(--espresso);color:var(--champagne);
   display:flex;flex-direction:column;justify-content:center;padding:40px;
@@ -243,7 +265,6 @@ header.nav.scrolled{
 .reveal{opacity:0;transform:translateY(26px);}
 .reveal.in{opacity:1;transform:translateY(0);transition:opacity .8s var(--t-slow),transform .8s var(--t-slow);}
 
-/* hero strip preview */
 .hero-visual{position:relative;display:flex;justify-content:center;}
 .strip-preview{
   background:var(--cream);padding:16px 16px 20px;border-radius:6px;
@@ -287,7 +308,7 @@ section{padding:clamp(64px,9vw,120px) 0;}
 .section-head p{margin-top:18px;color:var(--ink-soft);font-size:1.02rem;max-width:52ch;}
 
 /* ============================================================
-   STUDIO
+   STUDIO (PERBAIKAN UKURAN KAMERA)
    ============================================================ */
 .studio-shell{
   background:var(--surface);border-radius:var(--r-xl);box-shadow:var(--sh-md);
@@ -299,8 +320,16 @@ section{padding:clamp(64px,9vw,120px) 0;}
 .cam-stage{
   position:relative;background:#0d0a08;border-radius:var(--r-lg);overflow:hidden;
   aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;
+  max-height:55vh;width:100%;
 }
-@media(max-width:640px){.cam-stage{aspect-ratio:3/4;}}
+@media(max-width:640px){
+  .cam-stage{
+    aspect-ratio:3/4;
+    max-height:45vh;
+    width:auto;
+    margin-inline:auto;
+  }
+}
 #video{
   width:100%;height:100%;object-fit:cover;display:block;
   filter:none;transition:filter .12s linear;
@@ -355,9 +384,8 @@ section{padding:clamp(64px,9vw,120px) 0;}
 .cam-toolbar{
   display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;
 }
-.cam-toolbar .btn{flex:0 0 auto;}
+.cam-toolbar .btn{flex:1;min-width:80px;padding:10px 12px;}
 
-/* session panel */
 .panel{display:flex;flex-direction:column;gap:20px;}
 .panel-block{background:var(--bg);border-radius:var(--r-md);padding:18px;border:1px solid var(--line);}
 .panel-block h5{
@@ -380,7 +408,6 @@ section{padding:clamp(64px,9vw,120px) 0;}
 }
 .seg button.on{background:var(--espresso);color:var(--cream);}
 
-/* filters */
 .filters{
   background:var(--surface);border-radius:var(--r-lg);padding:20px;border:1px solid var(--line);
   margin-top:24px;
@@ -460,20 +487,21 @@ input[type=range]::-moz-range-thumb{
    TEMPLATES
    ============================================================ */
 .tpl-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:18px;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:12px;
 }
+@media(min-width:640px){ .tpl-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:16px;} }
 .tpl-card{
-  background:var(--surface);border-radius:var(--r-md);padding:14px;border:2px solid transparent;
+  background:var(--surface);border-radius:var(--r-md);padding:10px;border:2px solid transparent;
   cursor:pointer;transition:transform var(--t-fast),border-color var(--t-fast),box-shadow var(--t-fast);
   box-shadow:var(--sh-sm);
 }
 .tpl-card:hover{transform:translateY(-4px);box-shadow:var(--sh-md);}
 .tpl-card.on{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 15%,transparent);}
 .tpl-preview{
-  aspect-ratio:3/4;background:#fff;border-radius:4px;padding:8px;
+  aspect-ratio:3/4;background:#fff;border-radius:4px;padding:6px;
   display:flex;flex-direction:column;gap:3px;box-shadow:inset 0 0 0 1px var(--line);
 }
-.tpl-preview.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4px;}
+.tpl-preview.grid2{display:grid;grid-template-columns:1fr 1fr;gap:3px;}
 .tpl-preview.single{padding:10px;}
 .tpl-preview .cell{
   flex:1;background:linear-gradient(140deg,#c9a78c,#6b4f3d);border-radius:2px;
@@ -487,8 +515,8 @@ input[type=range]::-moz-range-thumb{
 .tpl-preview .cell:nth-child(3){background:linear-gradient(140deg,#b99a83,#4f3a2c);}
 .tpl-preview .cell:nth-child(4){background:linear-gradient(140deg,#a58a75,#3f2e23);}
 .tpl-name{
-  font-size:.72rem;margin-top:10px;text-align:center;color:var(--ink-soft);
-  letter-spacing:.04em;font-weight:500;
+  font-size:.65rem;margin-top:8px;text-align:center;color:var(--ink-soft);
+  letter-spacing:.04em;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
 .tpl-card.on .tpl-name{color:var(--accent);font-weight:600;}
 
@@ -589,7 +617,7 @@ footer{
 #backTop:hover{background:rgba(232,215,194,.1);}
 
 /* ============================================================
-   GALLERY / MODAL / TOAST
+   GALLERY / MODAL / TOAST / EDITOR
    ============================================================ */
 .modal-back{
   position:fixed;inset:0;z-index:1200;background:rgba(20,15,12,.72);backdrop-filter:blur(8px);
@@ -611,7 +639,7 @@ footer{
 #modalClose{
   position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;
   display:grid;place-items:center;color:var(--ink);background:var(--surface);
-  border:1px solid var(--line);transition:background var(--t-fast);
+  border:1px solid var(--line);transition:background var(--t-fast);z-index:2;
 }
 #modalClose:hover{background:var(--bg);}
 .modal-rel{position:relative;}
@@ -629,7 +657,6 @@ footer{
 .toast.error{background:#8b2a1e;}
 @keyframes toastIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
 
-/* gallery */
 .gallery-grid{
   display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px;
 }
@@ -648,26 +675,10 @@ footer{
 .gal-empty{
   text-align:center;padding:80px 24px;color:var(--muted);
 }
-.gal-empty svg{width:64px;height:64px;opacity:.3;margin-bottom:20px;}
+.gal-empty svg{width:64px;height:64px;opacity:.3;margin-bottom:20px;margin-inline:auto;}
 .gal-empty h4{font-size:1.3rem;color:var(--ink-soft);margin-bottom:8px;}
 .gal-empty p{font-size:.88rem;max-width:34ch;margin:0 auto 20px;}
 
-/* tutorial */
-.tut-steps{display:flex;flex-direction:column;gap:14px;margin:8px 0 24px;}
-.tut-step{
-  display:flex;gap:16px;align-items:flex-start;padding:16px;border-radius:var(--r-md);
-  background:var(--bg);border:1px solid var(--line);
-}
-.tut-step .num{
-  flex:0 0 36px;height:36px;border-radius:50%;background:var(--espresso);color:var(--cream);
-  display:grid;place-items:center;font-family:var(--serif);font-size:1rem;
-}
-.tut-step h5{margin:0 0 4px;font-family:var(--sans);font-size:.85rem;letter-spacing:.04em;}
-.tut-step p{font-size:.78rem;color:var(--ink-soft);margin:0;}
-
-/* ============================================================
-   EDITOR
-   ============================================================ */
 #editorView{display:none;}
 #editorView.show{display:block;}
 .editor-grid{display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start;}
@@ -680,7 +691,6 @@ footer{
 #resultCanvas{max-width:100%;max-height:70vh;box-shadow:var(--sh-lg);border-radius:4px;}
 .editor-panel{display:flex;flex-direction:column;gap:16px;}
 
-/* print */
 @media print{
   body *{visibility:hidden !important;}
   #printArea,#printArea *{visibility:visible !important;}
@@ -688,13 +698,9 @@ footer{
   @page{margin:8mm;}
 }
 
-/* misc */
 .hidden{display:none!important;}
 .mt-3{margin-top:16px;}
 .mt-4{margin-top:24px;}
-.flex{display:flex;}
-.gap-2{gap:8px;}
-.center{display:flex;align-items:center;justify-content:center;}
 
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:.01ms!important;transition-duration:.01ms!important;}
@@ -707,10 +713,15 @@ footer{
 <!-- ==================== INTRO ==================== -->
 <div id="intro" role="dialog" aria-label="Welcome to Afterglow">
   <div class="grain"></div>
-  <div class="intro-kicker">A NEW WAY TO KEEP MEMORIES</div>
-  <div class="intro-logo" id="introLogo" aria-label="AFTERGLOW"></div>
+  
+  <div class="intro-content">
+    <div class="intro-kicker">A NEW WAY TO KEEP MEMORIES</div>
+    <div class="intro-logo" id="introLogo" aria-label="AFTERGLOW"></div>
+  </div>
+
   <div class="intro-line" id="introLine"></div>
   <div class="intro-slogan" id="introSlogan">Some moments deserve to stay forever.</div>
+  
   <button id="skipIntro" aria-label="Skip intro">Skip →</button>
 </div>
 
@@ -1048,8 +1059,6 @@ footer{
 </div>
 
 <div id="toastBox"></div>
-
-<!-- ==================== PRINT AREA ==================== -->
 <div id="printArea" style="display:none;"></div>
 
 <script>
@@ -1059,7 +1068,6 @@ footer{
 (() => {
 'use strict';
 
-/* ---------------- Utilities ---------------- */
 const $ = (s, r=document) => r.querySelector(s);
 const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
 const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -1079,7 +1087,7 @@ function toast(msg, type=''){
   }, 2600);
 }
 
-/* ---------------- Intro ---------------- */
+/* ---------------- Intro (UPDATED) ---------------- */
 function runIntro(){
   const intro = $('#intro');
   if (sessionStorage.getItem('afterglow_intro') === '1'){
@@ -1087,8 +1095,11 @@ function runIntro(){
     intro.style.display = 'none';
     return;
   }
+  
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const logoEl = $('#introLogo');
+  const contentEl = $('.intro-content');
+  
   const word = 'AFTERGLOW';
   [...word].forEach((ch, i) => {
     const span = document.createElement('span');
@@ -1096,22 +1107,28 @@ function runIntro(){
     span.style.animationDelay = (0.7 + i * 0.06) + 's';
     logoEl.appendChild(span);
   });
+
   if (reduceMotion){
     logoEl.style.filter = 'none'; logoEl.style.opacity = '1';
     $$('#introLogo span').forEach(s => { s.style.opacity='1'; s.style.transform='none'; });
     $('#introLine').classList.add('show');
     $('#introSlogan').classList.add('show');
+    contentEl.classList.add('move-up');
   } else {
-    setTimeout(() => $('#introLine').classList.add('show'), 1800);
-    setTimeout(() => $('#introSlogan').classList.add('show'), 2200);
+    setTimeout(() => $('#introLine').classList.add('show'), 1600);
+    setTimeout(() => { contentEl.classList.add('move-up'); }, 2200);
+    setTimeout(() => $('#introSlogan').classList.add('show'), 2600);
   }
+
   const finish = () => {
     intro.classList.add('hide');
     sessionStorage.setItem('afterglow_intro', '1');
     setTimeout(() => { intro.style.display = 'none'; }, 900);
   };
-  const total = reduceMotion ? 1600 : 4200;
+  
+  const total = reduceMotion ? 1600 : 4500;
   const timer = setTimeout(finish, total);
+  
   $('#skipIntro').addEventListener('click', () => {
     clearTimeout(timer);
     finish();
@@ -1142,7 +1159,6 @@ function initNav(){
 
   $('#backTop').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-  // theme
   const savedTheme = localStorage.getItem('afterglow_theme');
   if (savedTheme === 'dark') document.documentElement.setAttribute('data-theme','dark');
   $('#themeBtn').addEventListener('click', () => {
@@ -1154,7 +1170,6 @@ function initNav(){
   });
 }
 
-/* ---------------- Reveal on scroll ---------------- */
 function initReveals(){
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => {
@@ -1260,14 +1275,10 @@ const FilterState = {
 function applyLiveFilter(){
   const video = $('#video');
   if (!video) return;
-  // scale filter strength using opacity-like blend via CSS filter list approximation:
-  // We just apply full filter when intensity=100; below that, dial down by blending.
   if (FilterState.intensity >= 100 || !FilterState.css){
     video.style.filter = FilterState.css || 'none';
   } else {
-    // approximate intensity by reducing effect strength
     const pct = FilterState.intensity / 100;
-    // build reduced filter by multiplying numeric values toward 1
     const reduced = FilterState.css.replace(/(\w+-?\w*)\(([-\d.]+)(deg)?\)/g, (m, fn, val, deg) => {
       const n = parseFloat(val);
       if (fn === 'grayscale' || fn === 'sepia'){
@@ -1480,7 +1491,6 @@ function initCamera(){
   $('#switchCam').addEventListener('click', async () => {
     Cam.facing = Cam.facing === 'user' ? 'environment' : 'user';
     const video = $('#video');
-    // mirror only for front camera
     Cam.mirror = Cam.facing === 'user';
     video.classList.toggle('mirror-off', !Cam.mirror);
     await startCamera(Cam.facing);
@@ -1495,7 +1505,6 @@ function initCamera(){
     $('#gridOverlay').classList.toggle('show', Cam.grid);
   });
 
-  // countdown seg
   $$('#countdownSeg button').forEach(b => {
     b.addEventListener('click', () => {
       $$('#countdownSeg button').forEach(x => x.classList.remove('on'));
@@ -1555,7 +1564,6 @@ function grabFrame(){
   ctx.fillStyle = '#000';
   ctx.fillRect(0,0,outW,outH);
 
-  // draw raw crop
   if (Cam.mirror){
     ctx.save();
     ctx.translate(outW, 0);
@@ -1566,7 +1574,6 @@ function grabFrame(){
     ctx.drawImage(video, sx, sy, cw, ch, 0, 0, outW, outH);
   }
 
-  // apply filter via canvas ctx.filter (same as CSS filter string)
   if (FilterState.css){
     const c2 = document.createElement('canvas');
     c2.width = outW; c2.height = outH;
@@ -1690,7 +1697,6 @@ function renderEditor(){
   const fw = frames[0].width;
   const fh = frames[0].height;
 
-  // Compute canvas size based on template layout
   let W = 0, H = 0;
   const gap = tpl.gap;
   const pad = tpl.pad;
@@ -1716,18 +1722,15 @@ function renderEditor(){
   canvas.width = W; canvas.height = H;
   const ctx = canvas.getContext('2d');
 
-  // background
   ctx.fillStyle = tpl.bg;
   ctx.fillRect(0, 0, W, H);
 
-  // draw each frame with editor adjustments
   const drawFrame = (frame, x, y, w, h) => {
     ctx.save();
     ctx.beginPath();
     ctx.rect(x, y, w, h);
     ctx.clip();
 
-    // apply filter via ctx.filter
     let filterStr = FilterState.css || '';
     filterStr += ` brightness(${EditorState.brightness}%) contrast(${EditorState.contrast}%) saturate(${EditorState.saturate}%)`;
     if (filterStr.trim()) ctx.filter = filterStr.trim();
@@ -1740,7 +1743,6 @@ function renderEditor(){
     ctx.drawImage(frame, -w/2, -h/2, w, h);
     ctx.restore();
 
-    // warmth overlay
     if (EditorState.warmth !== 0){
       ctx.save();
       ctx.globalCompositeOperation = 'overlay';
@@ -1752,7 +1754,6 @@ function renderEditor(){
       ctx.restore();
     }
 
-    // grain
     if (EditorState.grain > 0){
       ctx.save();
       ctx.globalAlpha = EditorState.grain / 100 * 0.35;
@@ -1766,7 +1767,6 @@ function renderEditor(){
       ctx.restore();
     }
 
-    // vignette
     if (EditorState.vignette > 0){
       ctx.save();
       const grad = ctx.createRadialGradient(cx, cy, Math.min(w,h)*0.3, cx, cy, Math.max(w,h)*0.75);
@@ -1801,7 +1801,6 @@ function renderEditor(){
       const x = pad;
       const y = pad + i * (fh + 40 + gap);
       drawFrame(frames[i % frames.length], x, y, fw, fh);
-      // caption space
       ctx.fillStyle = tpl.dark ? '#3a2f28' : '#f5ede3';
       ctx.fillRect(x, y + fh, fw, 40);
       ctx.fillStyle = tpl.dark ? '#e8d7c2' : '#49372D';
@@ -1817,7 +1816,6 @@ function renderEditor(){
     }
   }
 
-  // footer
   if (tpl.footer){
     const fy = H - footerH + 32;
     ctx.fillStyle = tpl.dark ? '#e8d7c2' : '#8a7d72';
@@ -2018,7 +2016,6 @@ function initModal(){
   });
 }
 
-/* ---------------- Tutorial ---------------- */
 function showTutorial(){
   openModal(`
     <h3>Welcome to AFTERGLOW</h3>
@@ -2039,7 +2036,6 @@ function showTutorial(){
   $('#tutDone').addEventListener('click', () => { closeModal(); localStorage.setItem('afterglow_tutorial','done'); });
 }
 
-/* ---------------- Sound toggle ---------------- */
 function initSound(){
   const btn = $('#soundBtn');
   const update = () => {
@@ -2054,7 +2050,6 @@ function initSound(){
   });
 }
 
-/* ---------------- Boot ---------------- */
 function boot(){
   runIntro();
   initNav();
@@ -2069,7 +2064,6 @@ function boot(){
 
   $('#startSession').addEventListener('click', startSession);
 
-  // first-visit tutorial
   setTimeout(() => {
     if (!localStorage.getItem('afterglow_tutorial')){
       showTutorial();
@@ -2078,7 +2072,6 @@ function boot(){
 
   $('#footTutorial').addEventListener('click', e => { e.preventDefault(); showTutorial(); });
 
-  // keyboard: space to capture during session
   document.addEventListener('keydown', e => {
     if (e.code === 'Space' && Cam.active && !Session.active && document.activeElement.tagName !== 'INPUT'){
       e.preventDefault();
@@ -2086,7 +2079,6 @@ function boot(){
     }
   });
 
-  // cleanup on unload
   window.addEventListener('beforeunload', () => {
     if (Cam.stream) Cam.stream.getTracks().forEach(t => t.stop());
   });
@@ -2100,4 +2092,4 @@ else boot();
 })();
 </script>
 </body>
-  </html>
+   </html>
